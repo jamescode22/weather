@@ -1,0 +1,289 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
+
+$color1: white;
+$color2: black;
+$color3: rgb(236, 117, 19);
+$color4: rgb(38, 151, 221);
+$color5: rgb(108, 108, 109);
+
+$color6: rgba(38, 151, 221, 0.6);
+$color7: rgba(38, 151, 221, 0.4);
+
+$color8: rgb(26, 132, 178);
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Roboto", sans-serif;
+  background-color: $color2;
+  font-size: 62.5%;
+}
+
+body {
+  background: url("./assets/clouds1.jpg") center/cover no-repeat;
+  height: 100vh;
+}
+
+/* HEADER */
+header {
+  padding: 5px;
+  background-color: $color4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+  font-size: 2rem;
+  h1 {
+    color: $color1;
+    text-transform: uppercase;
+    font-size: 2em;
+    font-weight: 400;
+    width: 270px;
+  }
+  input {
+    font: inherit;
+    padding: 5px;
+    width: 340px;
+    min-width: 340px;
+    order: 1;
+  }
+  .gps-button-container {
+    padding: 5px;
+    margin-left: 20px;
+    svg {
+      width: 35px;
+      height: 35px;
+      path {
+        fill: $color1;
+      }
+    }
+  }
+  .choices {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: $color6;
+    z-index: 1;
+    p {
+      padding: 10px;
+      width: 340px;
+      margin: auto;
+      background-color: $color1;
+      :hover {
+        background-color: $color5;
+        color: $color1;
+      }
+    }
+  }
+}
+
+/* BEGIN MAIN WEATHER BLOCK */
+
+.weather {
+  background-color: $color7;
+  border: 1px solid $color8;
+  width: 340px;
+  margin: auto;
+  box-shadow: 0 0 50px black;
+  position: relative;
+  font-size: 2rem;
+  .loc-and-time {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: $color1;
+    h2 {
+      font-weight: 400;
+    }
+    p {
+      font-size: 0.8em;
+      font-weight: 300;
+      span {
+        font-weight: 500;
+        color: $color3;
+      }
+    }
+  }
+  .loc-and-time > * {
+    padding: 15px;
+  }
+  .weather-data {
+    text-align: center;
+    color: $color1;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    h3 {
+      font-size: 1.8em;
+      text-shadow: 0 0 30px black;
+    }
+    h4 {
+      font-size: 0.75em;
+      text-shadow: 0 0 30px black;
+    }
+    p {
+      text-transform: capitalize;
+      text-shadow: 0 0 30px black;
+    }
+    > * {
+      padding: 10px;
+    }
+  }
+  .weather-forecast {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 10px 30px 10px;
+    background-color: rgba(187, 183, 174, 0.5);
+    font-size: 0.7em;
+    div {
+      padding: 5px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      :last-child {
+        display: none;
+      }
+      img {
+        width: 70px;
+      }
+      h3 {
+        color: $color1;
+        font-weight: 300;
+        text-shadow: 0 0 10px black;
+      }
+      p {
+        text-shadow: 0 0 10px black;
+        color: $color1;
+        font-size: 0.9em;
+      }
+    }
+  }
+}
+
+/* WEATHER LOADING BLURRING */
+/* to activate, add weather-loading class to weather div */
+
+@mixin blur($shadowColor, $blurPX) {
+  color: transparent;
+  text-shadow: 0 0 $blurPX $shadowColor;
+}
+
+.weather-loading {
+  :before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    backdrop-filter: blur(10px);
+  }
+  img {
+    filter: blur(20px);
+  }
+  .loc-and-time {
+    h2,
+    p {
+      @include blur(black, 10px);
+    }
+    p span {
+      @include blur($color3, 12px);
+    }
+  }
+  .weather-data {
+    h3 {
+      @include blur($color1, 12px);
+    }
+    h4 {
+      @include blur($color1, 6px);
+    }
+  }
+  .weather-forecast {
+    div p {
+      @include blur($color1, 8px);
+    }
+  }
+}
+
+/* END WEATHER BLURRING */
+
+.weather .powered-by {
+  text-align: center;
+  min-width: 250px;
+  position: absolute;
+  padding: 3px 15px;
+  bottom: 0px;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  backdrop-filter: blur(5px);
+  border-radius: 10px;
+  box-shadow: 0 2px 10px black;
+  color: $color1;
+  font-size: 1.3rem;
+  font-weight: 200;
+  background-color: rgba(38, 151, 221, 0.7);
+}
+
+@media screen and (min-width: 685px) {
+  /* HEADER */
+  header {
+    font-size: 2.5rem;
+    input {
+      order: 0;
+    }
+  }
+
+  .weather {
+    width: 680px;
+    font-size: 2.5rem;
+  }
+
+  /* SHOW ALL FORECAST ITEMS  */
+  .weather .weather-forecast > div:last-child {
+    display: inherit;
+  }
+}
+
+/* LOADING CSS */
+
+.lds-ring {
+  display: block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border: 8px solid #000000;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #000000 transparent transparent transparent;
+}
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

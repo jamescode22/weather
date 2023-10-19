@@ -1,5 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
-
 * {
   margin: 0;
   padding: 0;
@@ -13,60 +12,46 @@ html {
 }
 
 body {
-  border: 1px solid white;
   background: url("./assets/clouds1.jpg") center/cover no-repeat;
   height: 100vh;
-}
-
-main {
-  /* border: 1px solid white;
-  background: url("./assets/clouds1.jpg") center/cover no-repeat;
-  height: 100vh; */
 }
 
 /* HEADER */
 header {
   padding: 5px;
-  background-color: rgba(38, 151, 221, 1);
+  background-color: rgb(38, 151, 221);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
   position: relative;
+  font-size: 2rem;
 }
-
 header h1 {
   color: white;
   text-transform: uppercase;
-  font-size: 4rem;
+  font-size: 2em;
   font-weight: 400;
   width: 270px;
 }
-
 header input {
   font: inherit;
   padding: 5px;
-  font-size: 2rem;
   width: 340px;
   min-width: 340px;
   order: 1;
 }
-
 header .gps-button-container {
   padding: 5px;
   margin-left: 20px;
 }
-
-header svg {
+header .gps-button-container svg {
   width: 35px;
   height: 35px;
 }
-
-header svg path {
+header .gps-button-container svg path {
   fill: white;
 }
-
-/* DROP DOWN PLACES LIST */
 header .choices {
   position: absolute;
   top: 100%;
@@ -75,22 +60,18 @@ header .choices {
   background-color: rgba(38, 151, 221, 0.6);
   z-index: 1;
 }
-
 header .choices p {
   padding: 10px;
-  font-size: 2rem;
   width: 340px;
   margin: auto;
   background-color: white;
 }
-
-header .choices p:hover {
+header .choices p :hover {
   background-color: rgb(108, 108, 109);
   color: white;
 }
 
 /* BEGIN MAIN WEATHER BLOCK */
-
 .weather {
   background-color: rgba(38, 151, 221, 0.4);
   border: 1px solid rgb(26, 132, 178);
@@ -98,36 +79,28 @@ header .choices p:hover {
   margin: auto;
   box-shadow: 0 0 50px black;
   position: relative;
+  font-size: 2rem;
 }
-
-.weather .loc-and-time > * {
-  padding: 15px;
-}
-
 .weather .loc-and-time {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   background-color: white;
 }
-
 .weather .loc-and-time h2 {
-  font-size: 3.5rem;
   font-weight: 400;
 }
-
 .weather .loc-and-time p {
-  margin: auto;
-  font-size: 1.7rem;
+  font-size: 0.8em;
   font-weight: 300;
 }
-
 .weather .loc-and-time p span {
-  font-size: 1.8rem;
   font-weight: 500;
   color: rgb(236, 117, 19);
 }
-
+.weather .loc-and-time > * {
+  padding: 15px;
+}
 .weather .weather-data {
   text-align: center;
   color: white;
@@ -135,111 +108,89 @@ header .choices p:hover {
   align-items: center;
   justify-content: space-around;
 }
-
+.weather .weather-data h3 {
+  font-size: 1.8em;
+  text-shadow: 0 0 30px black;
+}
+.weather .weather-data h4 {
+  font-size: 0.75em;
+  text-shadow: 0 0 30px black;
+}
+.weather .weather-data p {
+  text-transform: capitalize;
+  text-shadow: 0 0 30px black;
+}
 .weather .weather-data > * {
   padding: 10px;
 }
-
-.weather .weather-data h3 {
-  font-size: 4rem;
-  text-shadow: 0 0 30px black;
-}
-
-.weather .weather-data h4 {
-  font-size: 1.5rem;
-  text-shadow: 0 0 30px black;
-}
-
-.weather .weather-data p {
-  text-transform: capitalize;
-  font-size: 2rem;
-  text-shadow: 0 0 30px black;
-}
-
 .weather .weather-forecast {
   display: flex;
   justify-content: space-around;
   padding: 10px 10px 30px 10px;
   background-color: rgba(187, 183, 174, 0.5);
+  font-size: 0.7em;
 }
-
-.weather .weather-forecast img {
-  width: 70px;
-}
-
-.weather .weather-forecast h3 {
-  font-size: 2rem;
-  color: white;
-  font-weight: 300;
-}
-
-.weather .weather-forecast > div {
+.weather .weather-forecast div {
   padding: 5px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
-.weather .weather-forecast > div:last-child {
+.weather .weather-forecast div :last-child {
   display: none;
 }
-
-.weather .weather-forecast div p {
-  color: white;
-  font-size: 1.6rem;
+.weather .weather-forecast div img {
+  width: 70px;
 }
-
-.weather .weather-forecast p,
-.weather .weather-forecast h3 {
+.weather .weather-forecast div h3 {
+  color: white;
+  font-weight: 300;
   text-shadow: 0 0 10px black;
+}
+.weather .weather-forecast div p {
+  text-shadow: 0 0 10px black;
+  color: white;
+  font-size: 0.9em;
 }
 
 /* WEATHER LOADING BLURRING */
 /* to activate, add weather-loading class to weather div */
-
-.weather-loading::before {
+.weather-loading :before {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
-  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
 }
-
+.weather-loading img {
+  filter: blur(20px);
+}
 .weather-loading .loc-and-time h2,
 .weather-loading .loc-and-time p {
   color: transparent;
-  text-shadow: 0 0 15px black;
+  text-shadow: 0 0 10px black;
 }
-
 .weather-loading .loc-and-time p span {
   color: transparent;
-  text-shadow: 0 0 15px rgb(236, 117, 19);
+  text-shadow: 0 0 12px rgb(236, 117, 19);
 }
-
 .weather-loading .weather-data h3 {
   color: transparent;
   text-shadow: 0 0 12px white;
 }
-
-.weather-loading .weather-data h4,
-.weather-loading .weather-forecast h3 {
+.weather-loading .weather-data h4 {
   color: transparent;
-  text-shadow: 0 0 7px white;
+  text-shadow: 0 0 6px white;
 }
-
 .weather-loading .weather-forecast div p {
   color: transparent;
   text-shadow: 0 0 8px white;
 }
 
-.weather-loading img {
-  filter: blur(20px);
-}
-
 /* END WEATHER BLURRING */
-
 .weather .powered-by {
   text-align: center;
   min-width: 250px;
@@ -248,7 +199,8 @@ header .choices p:hover {
   bottom: 0px;
   left: 50%;
   transform: translate(-50%, 50%);
-  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+          backdrop-filter: blur(5px);
   border-radius: 10px;
   box-shadow: 0 2px 10px black;
   color: white;
@@ -257,21 +209,31 @@ header .choices p:hover {
   background-color: rgba(38, 151, 221, 0.7);
 }
 
-@media screen and (min-width: 850px) {
+@media screen and (min-width: 685px) {
+  /* HEADER */
+  header {
+    font-size: 2.5rem;
+  }
+  header input {
+    order: 0;
+  }
+  .weather {
+    width: 680px;
+    font-size: 2.5rem;
+  }
   /* SHOW ALL FORECAST ITEMS  */
   .weather .weather-forecast > div:last-child {
     display: inherit;
   }
 }
-
 /* LOADING CSS */
-
 .lds-ring {
   display: block;
   position: relative;
   width: 80px;
   height: 80px;
 }
+
 .lds-ring div {
   box-sizing: border-box;
   display: block;
@@ -284,15 +246,19 @@ header .choices p:hover {
   animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
   border-color: #000000 transparent transparent transparent;
 }
+
 .lds-ring div:nth-child(1) {
   animation-delay: -0.45s;
 }
+
 .lds-ring div:nth-child(2) {
   animation-delay: -0.3s;
 }
+
 .lds-ring div:nth-child(3) {
   animation-delay: -0.15s;
 }
+
 @keyframes lds-ring {
   0% {
     transform: rotate(0deg);
@@ -300,4 +266,4 @@ header .choices p:hover {
   100% {
     transform: rotate(360deg);
   }
-}
+}/*# sourceMappingURL=weather.css.map */
