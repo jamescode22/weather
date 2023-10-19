@@ -12,6 +12,8 @@ export async function getIPLocation() {
     } = await axios.get(IP_API_URL);
     const { data: currentData } = await axios.get(currentWeatherURL(latitude, longitude));
     const { data: forecastData } = await axios.get(forecastWeatherURL(latitude, longitude));
+    console.log(currentData);
+    console.log(forecastData);
     updateInterface(currentData, forecastData);
   } catch (error) {
     console.log(error);

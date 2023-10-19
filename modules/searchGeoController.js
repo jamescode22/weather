@@ -1,18 +1,12 @@
 import { updateInterface } from "./interface.js";
-import {
-  forecastWeatherURL,
-  currentWeatherURL,
-  geoCodingURL,
-} from "./config.js";
+import { forecastWeatherURL, currentWeatherURL, geoCodingURL } from "./config.js";
 
 let geoData = [];
 
 const makePlaceLabel = (item) => {
   // Takes a single data item returned from API and creates a label
   // in the format City, State, Country, dealing with any undefined variables
-  return `${item.name}${item.state ? ", " + item.state : ""}${
-    item.country ? ", " + item.country : ""
-  }`;
+  return `${item.name}${item.state ? ", " + item.state : ""}${item.country ? ", " + item.country : ""}`;
 };
 
 export async function getWeatherFromInput(placeQuery) {
@@ -37,6 +31,9 @@ export async function getWeatherFromInput(placeQuery) {
 
     console.log(geoData);
 
+    // BLUR DISPLAY
+    document.getElementsByClassName("weather")[0].classList.add("weather-loading");
+
     // DISPLAY CHOICES OVERLAY
     const choicesPopupHTML = geoData
       .map((item, index) => {
@@ -54,12 +51,7 @@ export async function locationChoiceHandler(event) {
   // deals with a click event on the popup choices menu
   if (event.target.id === "choices") return;
 
-  const {
-    label,
-    name,
-    lat: latitude,
-    lon: longitude,
-  } = geoData[event.target.id];
+  const { label, name, lat: latitude, lon: longitude } = geoData[event.target.id];
 
   // const {name, state, }
   // set the chosen place into the input menu
@@ -70,12 +62,8 @@ export async function locationChoiceHandler(event) {
   document.getElementsByClassName("choices")[0].innerHTML = "";
 
   // fetch and display the weather
-  const { data: currentData } = await axios.get(
-    currentWeatherURL(latitude, longitude)
-  );
-  const { data: forecastData } = await axios.get(
-    forecastWeatherURL(latitude, longitude)
-  );
+  const { data: currentData } = await axios.get(currentWeatherURL(latitude, longitude));
+  const { data: forecastData } = await axios.get(forecastWeatherURL(latitude, longitude));
 
   console.log("currentData", currentData);
   console.log("futureData", forecastData);
@@ -85,4 +73,7 @@ export async function locationChoiceHandler(event) {
   currentData.name = name;
 
   updateInterface(currentData, forecastData);
+
+  // Unblur the screen
+  document.getElementsByClassName("weather")[0].classList.remove("weather-loading");
 }
