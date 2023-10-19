@@ -1,6 +1,7 @@
 import { getWeatherFromInput } from "./modules/searchGeoController.js";
 import { getWeatherFromLocation } from "./modules/locationGeoController.js";
 import { locationChoiceHandler } from "./modules/searchGeoController.js";
+import { getIPLocation } from "./modules/initialGeoController.js";
 
 // BEGIN LISTENING FOR INPUT FROM SEARCH BOX
 const locationInput = document.getElementById("location");
@@ -22,3 +23,5 @@ const choicesMenuRef = document.getElementsByClassName("choices")[0];
 choicesMenuRef.addEventListener("click", (e) => {
   locationChoiceHandler(e);
 });
+
+getIPLocation();

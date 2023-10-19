@@ -1,16 +1,3 @@
-export function showError(error, errorDetail) {
-  // TODO
-  // mainRef.innerHTML = `
-  //   <div id="weather">
-  //       <h1>Weather</h1>
-  //       <div class="loc-and-time">
-  //           <h2>Error</h2>
-  //           <p><span>${error}</span> ${errorDetail}</p>
-  //       </div>
-  //       <div class="weather-data"></div>
-  //   </div>`;
-}
-
 export function setToIntroScreen() {
   document.getElementById("auto-gen").innerHTML = `
   <div class="intro-screen">
