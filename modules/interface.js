@@ -20,15 +20,7 @@ export function setToLoadingScreen() {
 export function updateInterface(currentData, forecastData) {
   // HELPER - converts results from getDay() to a nice string
   function dayToString(dayNumber) {
-    return [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday",
-    ][dayNumber - 1];
+    return ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"][dayNumber - 1];
   }
 
   // CURRENT WEATHER - prepare data for HTML templates
@@ -36,9 +28,7 @@ export function updateInterface(currentData, forecastData) {
 
   const weatherCurrent = {
     icon: `https://openweathermap.org/img/wn/${currentData.weather[0].icon}@2x.png`,
-    time: `${String(currentWeatherDate.getHours()).padStart(2, 0)}:${String(
-      currentWeatherDate.getMinutes()
-    ).padStart(2, 0)}`,
+    time: `${String(currentWeatherDate.getHours()).padStart(2, 0)}:${String(currentWeatherDate.getMinutes()).padStart(2, 0)}`,
     description: currentData.weather[0].description,
     city: currentData.name,
     today: currentWeatherDate.toLocaleDateString("en-GB", {
@@ -57,10 +47,7 @@ export function updateInterface(currentData, forecastData) {
     return {
       icon: `https://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`,
       day: dayToString(new Date(item.dt * 1000).getDay()),
-      time: `${String(new Date(item.dt * 1000).getUTCHours()).padStart(
-        2,
-        0
-      )}:${String(new Date(item.dt * 1000).getUTCMinutes()).padStart(2, 0)}`,
+      time: `${String(new Date(item.dt * 1000).getUTCHours()).padStart(2, 0)}:${String(new Date(item.dt * 1000).getUTCMinutes()).padStart(2, 0)}`,
       main: item.weather[0].main,
       description: item.weather[0].description,
       temp: Math.round(item.main.temp),
@@ -71,10 +58,7 @@ export function updateInterface(currentData, forecastData) {
 
   // FILTER WEATHER FORECAST ARRAY - ONLY KEEP
   // FORECASTS FOR 12:00, EXCLUDE TODAY
-  const weatherForecast = weatherForecastAll.filter(
-    (item) =>
-      item.time === "12:00" && item.day !== dayToString(new Date().getDay())
-  );
+  const weatherForecast = weatherForecastAll.filter((item) => item.time === "12:00" && item.day !== dayToString(new Date().getDay()));
 
   // Depending on current time of day, there may be 4 or 5 future 12:00 forecasts
   // available.  To ensure design doesn't break, clip the weatherForecast array to 4 items.
