@@ -21,7 +21,12 @@ gpsButtonRef.addEventListener("click", () => {
 // SOMETHING SELECTED ON THE LOCATION CHOICES DROPDOWN
 const choicesMenuRef = document.getElementsByClassName("choices")[0];
 choicesMenuRef.addEventListener("click", (e) => {
-  locationChoiceHandler(e);
+  if (e.target.className === "choice-item") {
+    locationChoiceHandler(e);
+  }
+  if (e.target.className === "delete-button") {
+    console.log("DELETE ITEM");
+  }
 });
 
 getIPLocation();
