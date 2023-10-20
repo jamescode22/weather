@@ -1,87 +1,76 @@
 import { updateInterface } from "./interface.js";
-import {
-  forecastWeatherURL,
-  currentWeatherURL,
-  geoCodingURL,
-} from "./config.js";
+import { forecastWeatherURL, currentWeatherURL, geoCodingURL } from "./config.js";
 
-let geoData = [];
+let foundPlaces = [];
+let savedPlaces = [];
 
-const makePlaceLabel = (item) => {
-  // Takes a single data item returned from API and creates a label
-  // in the format City, State, Country, dealing with any undefined variables
-  return `${item.name}${item.state ? ", " + item.state : ""}${
-    item.country ? ", " + item.country : ""
-  }`;
+const quantiseGeoData = (gd) => {
+  return gd.map((item) => {
+    return {
+      name: item.name,
+      latitude: item.lat,
+      longitude: item.lon,
+      label: `${item.name}${item.state ? ", " + item.state : ""}${item.country ? ", " + item.country : ""}`,
+    };
+  });
 };
 
-export async function getWeatherFromInput(placeQuery) {
+const getFoundPlacesHTML = (fp) => {
+  return fp.map(({ label }, i) => `<p class="choice-found-item" id="${i}">${label}</p>`).join("") || "";
+};
+
+const getSavedPlacesHTML = (sp) => {
+  if (sp.length === 0) return "";
+
+  return (
+    "<p>Saved Places</p>" +
+      sp
+        .map(({ label }, i) => `<div><p class="choice-saved-item" id="${i}">${label}</p><div class="delete-button" id="${i}"><div></div></div></div>`)
+        .join("") || ""
+  );
+};
+
+const addToSavedPlaces = (p, savedList) => {
+  if (savedList.find((pList) => pList.label === p.label)) return savedList;
+  savedList.push(p);
+  return savedList;
+};
+
+export async function getPlacesFromInput(placeQuery) {
   try {
     // VALIDATE THE INPUT USING JOI
     const schema = joi.object({ location: joi.string().required().min(3) });
     await schema.validateAsync({ location: placeQuery });
 
-    // CALL GEOCODING API - get lat/long for entered place name
     const { data } = await axios.get(geoCodingURL(placeQuery));
-
-    // Check that something has been found, and that the found location
-    // matches the input string
     if (data.length === 0) return;
-    // if (String(geoData[0].name).toLowerCase().substring(0, placeQuery.length) !== placeQuery.toLowerCase()) return;
-
-    // Add label to object for each item
-    geoData = data.map((item) => {
-      console.log("F", makePlaceLabel(item));
-      return { ...item, label: makePlaceLabel(item) };
-    });
-
-    console.log(geoData);
+    foundPlaces = quantiseGeoData(data);
 
     // BLUR DISPLAY
-    document
-      .getElementsByClassName("weather")[0]
-      .classList.add("weather-loading");
+    document.getElementsByClassName("weather")[0].classList.add("weather-loading");
+
+    // SHOW POPUP
+    document.getElementsByClassName("choices")[0].classList.add("choices-show");
 
     // DISPLAY CHOICES FOUND OVERLAY
-    const choicesFoundPopupHTML = geoData
-      .map((item, index) => {
-        return `<p class="choice-item" id="${index}">${item.label}</p>`;
-      })
-      .join("");
-
-    document.getElementsByClassName("choices")[0].classList.add("choices-show");
-    document.getElementsByClassName("choices-found")[0].innerHTML =
-      choicesFoundPopupHTML;
+    document.getElementsByClassName("choices-found")[0].innerHTML = getFoundPlacesHTML(foundPlaces);
 
     // ADD PREVIOUSLY SAVES CHOICES (if available)
-    const choicesSavedPopupHTML = geoData
-      .map((item, index) => {
-        return `<div>
-                 <p class="choice-item" id="${index}">${item.label}</p>
-                 <div class="delete-button" id="${index}"><div></div></div>
-                </div>
-          `;
-      })
-      .join("");
-
-    document.getElementsByClassName(
-      "choices-saved"
-    )[0].innerHTML = `<p>Saved Locations</p>${choicesSavedPopupHTML}`;
+    document.getElementsByClassName("choices-saved")[0].innerHTML = getSavedPlacesHTML(savedPlaces);
   } catch (error) {
     console.log(error);
   }
 }
 
-export async function locationChoiceHandler(event) {
-  // deals with a click event on the popup choices menu
-  // if (event.target === "choices") return;
+export async function placeChosenHandler(event) {
+  const chosenPlace = event.target.className === "choice-found-item" ? foundPlaces[Number(event.target.id)] : savedPlaces[Number(event.target.id)];
 
-  const {
-    label,
-    name,
-    lat: latitude,
-    lon: longitude,
-  } = geoData[event.target.id];
+  console.log("chosen place", chosenPlace);
+
+  const { label, name, latitude, longitude } = chosenPlace;
+
+  // Add this to the saved places list
+  savedPlaces = addToSavedPlaces(chosenPlace, savedPlaces);
 
   // const {name, state, }
   // set the chosen place into the input menu
@@ -91,20 +80,11 @@ export async function locationChoiceHandler(event) {
   // hide the popup choices menu
   document.getElementsByClassName("choices-found")[0].innerHTML = "";
   document.getElementsByClassName("choices-saved")[0].innerHTML = "";
-  document
-    .getElementsByClassName("choices")[0]
-    .classList.remove("choices-show");
+  document.getElementsByClassName("choices")[0].classList.remove("choices-show");
 
   // fetch and display the weather
-  const { data: currentData } = await axios.get(
-    currentWeatherURL(latitude, longitude)
-  );
-  const { data: forecastData } = await axios.get(
-    forecastWeatherURL(latitude, longitude)
-  );
-
-  console.log("currentData", currentData);
-  console.log("futureData", forecastData);
+  const { data: currentData } = await axios.get(currentWeatherURL(latitude, longitude));
+  const { data: forecastData } = await axios.get(forecastWeatherURL(latitude, longitude));
 
   // "correct" the place name -use the one returned from the geocoding API to ensure
   // consistency between search box and the displayed place name.
@@ -113,7 +93,12 @@ export async function locationChoiceHandler(event) {
   updateInterface(currentData, forecastData);
 
   // Unblur the screen
-  document
-    .getElementsByClassName("weather")[0]
-    .classList.remove("weather-loading");
+  document.getElementsByClassName("weather")[0].classList.remove("weather-loading");
+}
+
+export function deleteSavedPlaceHandler(event) {
+  console.log("ID", event.target.id);
+  savedPlaces.splice(Number(event.target.id), 1);
+  console.log("SAVEDPLACES", savedPlaces);
+  document.getElementsByClassName("choices-saved")[0].innerHTML = getSavedPlacesHTML(savedPlaces);
 }

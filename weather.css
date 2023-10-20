@@ -54,6 +54,7 @@ header .gps-button-container svg path {
   fill: white;
 }
 header .choices {
+  cursor: default;
   position: absolute;
   opacity: 0;
   transition: opacity 0.1s ease-in-out;
@@ -67,6 +68,7 @@ header .choices {
 }
 header .choices .choices-saved > p {
   color: white;
+  cursor: default;
   background-color: rgb(236, 117, 19);
 }
 header .choices .choices-saved > div {
@@ -75,6 +77,7 @@ header .choices .choices-saved > div {
   justify-content: space-between;
 }
 header .choices .choices-saved .delete-button {
+  cursor: pointer;
   border: 2px solid black;
   margin-right: 10px;
   width: 25px;
@@ -87,6 +90,7 @@ header .choices .choices-saved .delete-button {
 header .choices .choices-saved .delete-button div:after,
 header .choices .choices-saved .delete-button div:before {
   content: "";
+  pointer-events: none;
   position: absolute;
   top: 10px;
   left: 2px;
@@ -105,6 +109,7 @@ header .choices > div {
   background-color: white;
 }
 header .choices p {
+  cursor: pointer;
   padding: 10px;
   color: black;
 }

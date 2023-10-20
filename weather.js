@@ -1,6 +1,5 @@
-import { getWeatherFromInput } from "./modules/searchGeoController.js";
 import { getWeatherFromLocation } from "./modules/locationGeoController.js";
-import { locationChoiceHandler } from "./modules/searchGeoController.js";
+import { placeChosenHandler, deleteSavedPlaceHandler, getPlacesFromInput } from "./modules/searchGeoController.js";
 import { getIPLocation } from "./modules/initialGeoController.js";
 
 // BEGIN LISTENING FOR INPUT FROM SEARCH BOX
@@ -9,7 +8,7 @@ let locationInputValue = "";
 
 locationInput.addEventListener("input", (e) => {
   locationInputValue = e.target.value;
-  getWeatherFromInput(locationInputValue);
+  getPlacesFromInput(locationInputValue);
 });
 
 // WAIT FOR A CLICK ON THE GEO BUTTON
@@ -21,11 +20,13 @@ gpsButtonRef.addEventListener("click", () => {
 // SOMETHING SELECTED ON THE LOCATION CHOICES DROPDOWN
 const choicesMenuRef = document.getElementsByClassName("choices")[0];
 choicesMenuRef.addEventListener("click", (e) => {
-  if (e.target.className === "choice-item") {
-    locationChoiceHandler(e);
+  console.log("CLICK", e.target.className);
+  if (e.target.className === "choice-found-item" || e.target.className === "choice-saved-item") {
+    placeChosenHandler(e);
   }
   if (e.target.className === "delete-button") {
     console.log("DELETE ITEM");
+    deleteSavedPlaceHandler(e);
   }
 });
 

@@ -65,6 +65,7 @@ header {
     }
   }
   .choices {
+    cursor: default;
     position: absolute;
     opacity: 0;
     transition: opacity 0.1s ease-in-out;
@@ -78,6 +79,7 @@ header {
     .choices-saved {
       > p {
         color: white;
+        cursor: default;
         background-color: $color3;
       }
       > div {
@@ -86,6 +88,7 @@ header {
         justify-content: space-between;
       }
       .delete-button {
+        cursor: pointer;
         border: 2px solid black;
         margin-right: 10px;
         width: 25px;
@@ -98,6 +101,7 @@ header {
       .delete-button div:after,
       .delete-button div:before {
         content: "";
+        pointer-events: none;
         position: absolute;
         top: 10px;
         left: 2px;
@@ -117,6 +121,7 @@ header {
       background-color: $color1;
     }
     p {
+      cursor: pointer;
       padding: 10px;
       color: black;
       :hover {
