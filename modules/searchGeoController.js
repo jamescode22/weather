@@ -34,14 +34,28 @@ export async function getWeatherFromInput(placeQuery) {
     // BLUR DISPLAY
     document.getElementsByClassName("weather")[0].classList.add("weather-loading");
 
-    // DISPLAY CHOICES OVERLAY
-    const choicesPopupHTML = geoData
+    // DISPLAY CHOICES FOUND OVERLAY
+    const choicesFoundPopupHTML = geoData
       .map((item, index) => {
         return `<p id="${index}">${item.label}</p>`;
       })
       .join("");
 
-    document.getElementsByClassName("choices")[0].innerHTML = choicesPopupHTML;
+    document.getElementsByClassName("choices")[0].classList.add("choices-show");
+    document.getElementsByClassName("choices-found")[0].innerHTML = choicesFoundPopupHTML;
+
+    // ADD PREVIOUSLY SAVES CHOICES (if available)
+    const choicesSavedPopupHTML = geoData
+      .map((item, index) => {
+        return `<div>
+                 <p id="${index}">${item.label}</p>
+                  <div>x</div>
+                </div>
+          `;
+      })
+      .join("");
+
+    document.getElementsByClassName("choices-saved")[0].innerHTML = `<p>Saved Locations</p>${choicesSavedPopupHTML}`;
   } catch (error) {
     console.log(error);
   }
@@ -59,7 +73,9 @@ export async function locationChoiceHandler(event) {
   locationInput.value = label;
 
   // hide the popup choices menu
-  document.getElementsByClassName("choices")[0].innerHTML = "";
+  document.getElementsByClassName("choices-found")[0].innerHTML = "";
+  document.getElementsByClassName("choices-saved")[0].innerHTML = "";
+  document.getElementsByClassName("choices")[0].classList.remove("choices-show");
 
   // fetch and display the weather
   const { data: currentData } = await axios.get(currentWeatherURL(latitude, longitude));
