@@ -25,7 +25,6 @@ choicesMenuRef.addEventListener("click", (e) => {
     placeChosenHandler(e);
   }
   if (e.target.className === "delete-button") {
-    console.log("DELETE ITEM");
     deleteSavedPlaceHandler(e);
   }
 });

@@ -1,89 +1,81 @@
-export function setToIntroScreen() {
-  document.getElementById("auto-gen").innerHTML = `
-  <div class="intro-screen">
-    <p>Type a place into the box, or click the GPS icon to find your current location.</p>
-  </div>`;
+// export function setToLoadingScreen() {
+//   document.getElementById("auto-gen").innerHTML = `
+//     <div class="intro-screen">
+//       <div class="lds-ring">
+//       <div></div>
+//       <div></div>
+//       <div></div>
+//       <div></div>
+//     </div>
+//     </div>`;
+// }
+
+const getFoundPlacesHTML = (fp) => {
+  // Takes an array of geo objects (for found locations), returns HTML for dropdown list
+  if (fp.length === 0) return "";
+  return fp.map(({ label }, i) => `<p class="choice-found-item" id="${i}">${label}</p>`).join("") || "";
+};
+
+const getSavedPlacesHTML = (sp) => {
+  // Takes an array of geo objects (for saved places), returns HTML for dropdown list
+  if (sp.length === 0) return "";
+  return (
+    "<p>Saved Places</p>" +
+      sp
+        .map(({ label }, i) => `<div><p class="choice-saved-item" id="${i}">${label}</p><div class="delete-button" id="${i}"><div></div></div></div>`)
+        .join("") || ""
+  );
+};
+
+// CONVERT 0 indexed day into a string
+const dayToString = (d) => ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"][d - 1];
+
+export function openPlacesList(foundPlaces, savedPlaces) {
+  // Takes an array of geo objects for foundPlaces and savedPlaces and displays the popup form
+
+  // BLUR DISPLAY
+  document.getElementsByClassName("weather")[0].classList.add("weather-loading");
+
+  // SHOW POPUP
+  document.getElementsByClassName("choices")[0].classList.add("choices-show");
+
+  // DISPLAY CHOICES FOUND OVERLAY
+  document.getElementsByClassName("choices-found")[0].innerHTML = getFoundPlacesHTML(foundPlaces);
+
+  // ADD PREVIOUSLY SAVES CHOICES (if available)
+  document.getElementsByClassName("choices-saved")[0].innerHTML = getSavedPlacesHTML(savedPlaces);
 }
 
-export function setToLoadingScreen() {
-  document.getElementById("auto-gen").innerHTML = `
-    <div class="intro-screen">
-      <div class="lds-ring">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-    </div>`;
+export function closePlacesList() {
+  document.getElementsByClassName("choices-found")[0].innerHTML = "";
+  document.getElementsByClassName("choices-saved")[0].innerHTML = "";
+  document.getElementsByClassName("choices")[0].classList.remove("choices-show");
+  document.getElementsByClassName("weather")[0].classList.remove("weather-loading");
 }
 
-export function updateInterface(currentData, forecastData) {
-  // HELPER - converts results from getDay() to a nice string
-  function dayToString(dayNumber) {
-    return ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"][dayNumber - 1];
-  }
-
-  // CURRENT WEATHER - prepare data for HTML templates
-  const currentWeatherDate = new Date(currentData.dt * 1000);
-
-  const weatherCurrent = {
-    icon: `https://openweathermap.org/img/wn/${currentData.weather[0].icon}@2x.png`,
-    time: `${String(currentWeatherDate.getHours()).padStart(2, 0)}:${String(currentWeatherDate.getMinutes()).padStart(2, 0)}`,
-    description: currentData.weather[0].description,
-    city: currentData.name,
-    today: currentWeatherDate.toLocaleDateString("en-GB", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    }),
-    temp: Math.round(currentData.main.temp),
-    tempMin: Math.round(currentData.main.temp_min),
-    tempMax: Math.round(currentData.main.temp_max),
-  };
-
-  // FORECAST DATA - prepare date for HTML templates
-  const weatherForecastAll = forecastData.list.map((item) => {
-    return {
-      icon: `https://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`,
-      day: dayToString(new Date(item.dt * 1000).getDay()),
-      time: `${String(new Date(item.dt * 1000).getUTCHours()).padStart(2, 0)}:${String(new Date(item.dt * 1000).getUTCMinutes()).padStart(2, 0)}`,
-      main: item.weather[0].main,
-      description: item.weather[0].description,
-      temp: Math.round(item.main.temp),
-      tempMin: Math.round(item.main.temp_min),
-      tempMax: Math.round(item.main.temp_max),
-    };
-  });
-
-  // FILTER WEATHER FORECAST ARRAY - ONLY KEEP
-  // FORECASTS FOR 12:00, EXCLUDE TODAY
-  const weatherForecast = weatherForecastAll.filter((item) => item.time === "12:00" && item.day !== dayToString(new Date().getDay()));
-
-  // Depending on current time of day, there may be 4 or 5 future 12:00 forecasts
-  // available.  To ensure design doesn't break, clip the weatherForecast array to 4 items.
-  weatherForecast.length = 4;
-
+export function updateWeatherOnScreen(_w) {
+  // TAKES AN INSTANCE OF THE WEATHER CLASS AND FORMATS DATA
+  // FOR THE SCREEN
   document.getElementById("auto-gen").innerHTML = `
   <div class="loc-and-time">
         <div>
-          <h2>${weatherCurrent.city}</h2>
-          <p><span>${weatherCurrent.today}</span></p>
+          <h2>${_w.city}</h2>
+          <p><span>${_w.today}</span></p>
         </div>
-        <p>Weather last updated at ${weatherCurrent.time}</p>
+        <p>Weather last updated at ${_w.time}</p>
         </div>
 
         <div class="weather-data">
-    <img src="${weatherCurrent.icon}" />
+    <img src="${_w.icon}" />
     <div>
-        <h3>${weatherCurrent.temp}&deg;C</h3>
-        <h4>${weatherCurrent.tempMin} - ${weatherCurrent.tempMax}&deg;C</h4>
+        <h3>${_w.temp}&deg;C</h3>
+        <h4>${_w.tempMin} - ${_w.tempMax}&deg;C</h4>
     </div>
-    <p>${weatherCurrent.description}</p>
+    <p>${_w.description}</p>
     
     </div>
     <div class="weather-forecast">
-      ${weatherForecast
+      ${_w.forecast
         .map(
           (item) => `<div>
                       <h3>${item.day}</h3>
