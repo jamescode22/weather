@@ -1,9 +1,12 @@
-import { updateWeatherOnScreen, openPlacesList, closePlacesList } from "./interface.js";
+// import { updateWeatherOnScreen, openPlacesList, closePlacesList } from "./interface.js";
 import { forecastWeatherURL, currentWeatherURL, geoCodingURL } from "./config.js";
 import { Weather } from "./Weather.js";
+import { WeatherView } from "./WeatherView.js";
 
 let foundPlaces = [];
 let savedPlaces = [];
+
+const _wv = new WeatherView();
 
 const quantiseGeoData = (gd) => {
   // IN: data object from OWM geo api
@@ -36,7 +39,7 @@ export async function getPlacesFromInput(placeQuery) {
     if (data.length === 0) return;
     foundPlaces = quantiseGeoData(data);
 
-    openPlacesList(foundPlaces, savedPlaces);
+    _wv.openPlacesList(foundPlaces, savedPlaces);
   } catch (error) {
     console.log(error);
   }
@@ -55,7 +58,7 @@ export async function placeChosenHandler(event) {
   locationInput.value = label;
 
   // Close the places list
-  closePlacesList();
+  _wv.closePlacesList();
 
   try {
     // fetch and display the weather
@@ -68,7 +71,7 @@ export async function placeChosenHandler(event) {
 
     // create a new weather instance
     const _w = new Weather(currentData, forecastData);
-    updateWeatherOnScreen(_w);
+    _wv.updateWeatherOnScreen(_w);
   } catch (e) {
     console.log(e);
   }
@@ -76,5 +79,5 @@ export async function placeChosenHandler(event) {
 
 export function deleteSavedPlaceHandler(event) {
   savedPlaces.splice(Number(event.target.id), 1);
-  openPlacesList(foundPlaces, savedPlaces);
+  _wv.openPlacesList(foundPlaces, savedPlaces);
 }

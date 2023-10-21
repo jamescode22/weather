@@ -1,6 +1,7 @@
-import { updateWeatherOnScreen } from "./interface.js";
+// import { updateWeatherOnScreen } from "./interface.js";
 import { forecastWeatherURL, currentWeatherURL } from "./config.js";
 import { Weather } from "./Weather.js";
+import { WeatherView } from "./WeatherView.js";
 
 export async function getWeatherFromLocation() {
   try {
@@ -8,7 +9,8 @@ export async function getWeatherFromLocation() {
     const { data: currentData } = await axios.get(currentWeatherURL(latitude, longitude));
     const { data: forecastData } = await axios.get(forecastWeatherURL(latitude, longitude));
     const _w = new Weather(currentData, forecastData);
-    updateWeatherOnScreen(_w);
+    const _wv = new WeatherView();
+    _wv.updateWeatherOnScreen(_w);
   } catch (error) {
     console.log(error);
   }

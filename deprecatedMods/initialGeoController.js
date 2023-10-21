@@ -1,10 +1,11 @@
 // For an intiial weather reading, use the IP address
 // of the user.
 
-import { IP_API_URL } from "./config.js";
-import { forecastWeatherURL, currentWeatherURL } from "./config.js";
-import { updateWeatherOnScreen } from "./interface.js";
-import { Weather } from "./Weather.js";
+import { IP_API_URL } from "../modules/config.js";
+import { forecastWeatherURL, currentWeatherURL } from "../modules/config.js";
+// import { updateWeatherOnScreen } from "./interface.js";
+import { Weather } from "../modules/Weather.js";
+import { WeatherView } from "../modules/WeatherView.js";
 
 export async function getIPLocation() {
   try {
@@ -15,7 +16,9 @@ export async function getIPLocation() {
     const { data: forecastData } = await axios.get(forecastWeatherURL(latitude, longitude));
 
     const _w = new Weather(currentData, forecastData);
-    updateWeatherOnScreen(_w);
+    const _wv = new WeatherView();
+
+    _wv.updateWeatherOnScreen(_w);
   } catch (error) {
     console.log(error);
   }
