@@ -25,10 +25,10 @@ header {
   justify-content: center;
   flex-wrap: wrap;
   position: relative;
-  font-size: 2rem;
+  font-size: 1.8rem;
 }
 header h1 {
-  color: white;
+  color: rgba(255, 255, 255, 0.7);
   text-transform: uppercase;
   font-size: 2em;
   font-weight: 400;
@@ -51,7 +51,7 @@ header .gps-button-container svg {
   height: 40px;
 }
 header .gps-button-container svg path {
-  fill: white;
+  fill: rgba(255, 255, 255, 0.7);
 }
 header .choices {
   cursor: default;
@@ -61,10 +61,10 @@ header .choices {
   top: 100%;
   left: 0;
   right: 0;
-  background-color: rgba(38, 151, 221, 0.6);
+  background-color: rgba(38, 151, 221, 0.8);
   z-index: 1;
   padding-bottom: 50px;
-  box-shadow: 0 10px 30px rgba(38, 151, 221, 0.6);
+  box-shadow: 0 10px 30px rgba(38, 151, 221, 0.8);
 }
 header .choices .choices-saved > p {
   color: white;
@@ -92,10 +92,10 @@ header .choices .choices-saved .delete-button div:before {
   content: "";
   pointer-events: none;
   position: absolute;
-  top: 10px;
+  top: 9px;
   left: 2px;
   height: 2px;
-  width: 18px;
+  width: 17px;
   border-radius: 2px;
   transform: rotate(-45deg);
   background-color: rgb(0, 0, 0);
@@ -106,7 +106,7 @@ header .choices .choices-saved .delete-button div:before {
 header .choices > div {
   width: 340px;
   margin: auto;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.7);
 }
 header .choices p {
   cursor: pointer;
@@ -115,7 +115,7 @@ header .choices p {
 }
 header .choices p :hover {
   background-color: rgb(108, 108, 109);
-  color: white;
+  color: rgba(255, 255, 255, 0.7);
 }
 header .choices-show {
   opacity: 1;
@@ -123,7 +123,7 @@ header .choices-show {
 
 /* BEGIN MAIN WEATHER BLOCK */
 .weather {
-  background-color: rgba(38, 151, 221, 0.4);
+  background-color: rgba(38, 151, 221, 0.6);
   border: 1px solid rgb(26, 132, 178);
   width: 340px;
   margin: auto;
@@ -131,11 +131,28 @@ header .choices-show {
   position: relative;
   font-size: 2rem;
 }
+.weather .error-overlay {
+  opacity: 0;
+  position: absolute;
+  background-color: rgb(255, 255, 255);
+  width: 75%;
+  top: 20%;
+  left: 50%;
+  padding: 25px;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 40px 20px black;
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+.weather .error-overlay-show {
+  opacity: 1;
+}
 .weather .loc-and-time {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.7);
 }
 .weather .loc-and-time h2 {
   font-weight: 400;
@@ -153,7 +170,7 @@ header .choices-show {
 }
 .weather .weather-data {
   text-align: center;
-  color: white;
+  color: rgba(255, 255, 255, 0.7);
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -180,26 +197,26 @@ header .choices-show {
   background-color: rgba(187, 183, 174, 0.5);
   font-size: 0.7em;
 }
+.weather .weather-forecast div:last-child {
+  display: none;
+}
 .weather .weather-forecast div {
   padding: 5px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.weather .weather-forecast div :last-child {
-  display: none;
-}
 .weather .weather-forecast div img {
   width: 70px;
 }
 .weather .weather-forecast div h3 {
-  color: white;
+  color: rgba(255, 255, 255, 0.7);
   font-weight: 300;
   text-shadow: 0 0 10px black;
 }
 .weather .weather-forecast div p {
   text-shadow: 0 0 10px black;
-  color: white;
+  color: rgba(255, 255, 255, 0.7);
   font-size: 0.9em;
 }
 
@@ -219,17 +236,17 @@ header .choices-show {
 }
 .weather-loading .weather-data h3 {
   color: transparent;
-  text-shadow: 0 0 12px white;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.7);
 }
 .weather-loading .weather-data h4,
 .weather-loading .weather-data p {
   color: transparent;
-  text-shadow: 0 0 6px white;
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.7);
 }
 .weather-loading .weather-forecast div p,
 .weather-loading .weather-forecast div h3 {
   color: transparent;
-  text-shadow: 0 0 8px white;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
 }
 
 /* END WEATHER BLURRING */
@@ -245,7 +262,7 @@ header .choices-show {
           backdrop-filter: blur(5px);
   border-radius: 10px;
   box-shadow: 0 2px 10px black;
-  color: white;
+  color: rgba(255, 255, 255, 0.7);
   font-size: 1.3rem;
   font-weight: 200;
   background-color: rgba(38, 151, 221, 0.7);
@@ -281,10 +298,17 @@ header .choices-show {
 }
 /* LOADING CSS */
 .lds-ring {
-  display: block;
-  position: relative;
+  display: none;
+  position: absolute;
   width: 80px;
   height: 80px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.lds-ring-show {
+  display: block;
 }
 
 .lds-ring div {

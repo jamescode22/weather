@@ -9,10 +9,15 @@ export class AppController {
     /// BIND EVENT HANDLERS TO VIEW AND MODEL
     this.view.bindLocationClickHandler(this.handleGPSButtonClick);
     this.view.bindLocationInputBoxChangedHandler(this.handleLocationInputChange);
+
     this.view.bindPlacesListClickHandlers(this.handlePlaceClick, this.handleDeleteClick);
+    this.view.bindLocationInputBoxHasFocusHandler(this.handleLocationInputHasFocus);
 
     this.modelGeoData.bindGeoDataChanged(this.onGeoDataChangeHandler);
+
     this.modelWeather.bindWeatherChanged(this.onWeatherChangeHandler);
+    this.modelWeather.bindWeatherLoadError(this.onWeatherLoadErrorHandler);
+    this.view.updateWeatherOnScreen({}, true, false);
 
     this.getIPLocation();
   }
@@ -23,24 +28,21 @@ export class AppController {
       const {
         data: { latitude, longitude },
       } = await axios.get(IP_API_URL);
-      const { data: currentData } = await axios.get(currentWeatherURL(latitude, longitude));
-      const { data: forecastData } = await axios.get(forecastWeatherURL(latitude, longitude));
 
-      this.modelWeather.updateWeatherData(currentData, forecastData);
+      this.modelWeather.updateWeatherDataFromLatAndLong(latitude, longitude);
     } catch (error) {
-      console.log(error);
+      this.view.updateWeatherOnScreen({}, false, error);
     }
   }
 
   ////// GET WEATHER FROM THE BROWSER LOCATION ///////
   async getWeatherFromLocation() {
     try {
+      this.view.updateWeatherOnScreen({}, true, false);
       const { latitude, longitude } = await this.getLocation();
-      const { data: currentData } = await axios.get(currentWeatherURL(latitude, longitude));
-      const { data: forecastData } = await axios.get(forecastWeatherURL(latitude, longitude));
-      this.modelWeather.updateWeatherData(currentData, forecastData);
+      this.modelWeather.updateWeatherDataFromLatAndLong(latitude, longitude);
     } catch (error) {
-      console.log(error);
+      this.view.updateWeatherOnScreen({}, false, error);
     }
   }
 
@@ -68,16 +70,15 @@ export class AppController {
 
   async getPlacesFromInput(placeQuery) {
     try {
-      // VALIDATE THE INPUT USING JOI
-      const schema = joi.object({ location: joi.string().required().min(3) });
-      await schema.validateAsync({ location: placeQuery });
+      // If input text is less than three letters, don't do anything
+      if (placeQuery.length < 3) return;
 
       const { data } = await axios.get(geoCodingURL(placeQuery));
       if (data.length === 0) return;
 
       this.modelGeoData.updateFoundPlacesData(data);
     } catch (error) {
-      console.log(error);
+      this.view.updateWeatherOnScreen({}, error);
     }
   }
 
@@ -85,16 +86,10 @@ export class AppController {
   async getWeatherFromPlace({ latitude, longitude, name }) {
     // takes a place object from the drop down selection
     try {
-      // fetch and display the weather
-      const { data: currentData } = await axios.get(currentWeatherURL(latitude, longitude));
-      const { data: forecastData } = await axios.get(forecastWeatherURL(latitude, longitude));
-
-      // "correct" the place name -use the one returned from the geocoding API to ensure
-      // consistency between search box and the displayed place name.
-      currentData.name = name;
-      this.modelWeather.updateWeatherData(currentData, forecastData);
+      // tell the model to get the weather from this lat and long, and override city name
+      this.modelWeather.updateWeatherDataFromLatAndLong(latitude, longitude, name);
     } catch (e) {
-      console.log(e);
+      this.view.updateWeatherOnScreen({}, e);
     }
   }
   /////// EVENT HANDLERS //////
@@ -104,7 +99,12 @@ export class AppController {
   };
 
   onGeoDataChangeHandler = (foundPlaces, savedPlaces) => {
+    this.view.updateWeatherOnScreen({});
     this.view.openPlacesList(foundPlaces, savedPlaces);
+  };
+
+  onWeatherLoadErrorHandler = (weatherData, error) => {
+    this.view.updateWeatherOnScreen({}, false, error);
   };
 
   handleGPSButtonClick = () => {
@@ -113,6 +113,13 @@ export class AppController {
 
   handleLocationInputChange = (inputText) => {
     this.getPlacesFromInput(inputText);
+  };
+
+  handleLocationInputHasFocus = (e) => {
+    // user has clicked or otherwise focussed on the input box.
+    this.view.updateWeatherOnScreen({}, false, false);
+    this.view.setLocationInputValue("");
+    this.modelGeoData.prepareToFindPlaces();
   };
 
   handlePlaceClick = (className, id) => {
@@ -126,7 +133,6 @@ export class AppController {
 
   handleDeleteClick = (id) => {
     // deleting a saved place from the drop down list
-    console.log("delete", id);
     this.modelGeoData.deleteFromSavedPlaces(id);
   };
 }

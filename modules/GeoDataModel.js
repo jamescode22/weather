@@ -12,6 +12,14 @@ export class GeoDataModel {
     this.onGeoDataChanged = callback;
   }
 
+  prepareToFindPlaces() {
+    // the user has clicked on the input and is about to
+    // type something, trigger the callback to open the dropdown list
+
+    this.foundPlaces.length = 0;
+    this.onGeoDataChanged(this.foundPlaces, this.savedPlaces);
+  }
+
   updateFoundPlacesData(geodata) {
     // Takes data direct from the geo coding API and converts to
     // local storage format (a "place" object)
