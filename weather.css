@@ -272,6 +272,11 @@ header .choices-show {
   color: transparent;
   text-shadow: 0 0 6px rgba(255, 255, 255, 0.7);
 }
+.weather-loading .later-today div h4,
+.weather-loading .later-today div p {
+  color: transparent;
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.7);
+}
 .weather-loading .weather-forecast div p,
 .weather-loading .weather-forecast div h3 {
   color: transparent;

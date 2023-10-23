@@ -129,10 +129,9 @@ export class WeatherView {
         { day: "Someday", icon: "https://openweathermap.org/img/wn/03n@2x.png", temp: "99", main: "Weather" },
       ],
       latertoday = [
-        { day: "Someday", icon: "https://openweathermap.org/img/wn/03n@2x.png", temp: "99", main: "Weather" },
-        { day: "Someday", icon: "https://openweathermap.org/img/wn/03n@2x.png", temp: "99", main: "Weather" },
-        { day: "Someday", icon: "https://openweathermap.org/img/wn/03n@2x.png", temp: "99", main: "Weather" },
-        { day: "Someday", icon: "https://openweathermap.org/img/wn/03n@2x.png", temp: "99", main: "Weather" },
+        { time: "00:00", icon: "https://openweathermap.org/img/wn/03n@2x.png", temp: "99", main: "Weather" },
+        { time: "00:00", icon: "https://openweathermap.org/img/wn/03n@2x.png", temp: "99", main: "Weather" },
+        { time: "00:00", icon: "https://openweathermap.org/img/wn/03n@2x.png", temp: "99", main: "Weather" },
       ],
     } = weatherData;
 

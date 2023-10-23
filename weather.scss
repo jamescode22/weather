@@ -306,6 +306,12 @@ header {
       @include blur($color1, 6px);
     }
   }
+  .later-today div {
+    h4,
+    p {
+      @include blur($color1, 6px);
+    }
+  }
 
   .weather-forecast div {
     p,
