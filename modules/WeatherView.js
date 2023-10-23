@@ -99,7 +99,7 @@ export class WeatherView {
     this.choicesFound.innerHTML = "";
     this.choicesSaved.innerHTML = "";
     this.choices.classList.remove("choices-show");
-    this.weather.classList.remove("weather-loading");
+    // this.weather.classList.remove("weather-loading");
   }
 
   updateWeatherOnScreen(weatherData, isLoading, errorMessage) {

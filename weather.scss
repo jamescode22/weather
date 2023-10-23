@@ -296,32 +296,32 @@ header {
   .loc-and-time {
     h2,
     p {
-      @include blur(black, 10px);
+      @include blur(black, 15px);
     }
     p span {
-      @include blur($color3, 12px);
+      @include blur($color3, 9px);
     }
   }
   .weather-data {
     h3 {
-      @include blur($color1, 12px);
+      @include blur($color1, 14px);
     }
     h4,
     p {
-      @include blur($color1, 6px);
+      @include blur($color1, 12px);
     }
   }
   .later-today div {
     h4,
     p {
-      @include blur($color1, 6px);
+      @include blur($color1, 8px);
     }
   }
 
   .weather-forecast div {
     p,
     h3 {
-      @include blur($color1, 8px);
+      @include blur($color1, 6px);
     }
   }
 }

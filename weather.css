@@ -262,30 +262,30 @@ header .choices-show {
 .weather-loading .loc-and-time h2,
 .weather-loading .loc-and-time p {
   color: transparent;
-  text-shadow: 0 0 10px black;
+  text-shadow: 0 0 15px black;
 }
 .weather-loading .loc-and-time p span {
   color: transparent;
-  text-shadow: 0 0 12px rgb(236, 117, 19);
+  text-shadow: 0 0 9px rgb(236, 117, 19);
 }
 .weather-loading .weather-data h3 {
   color: transparent;
-  text-shadow: 0 0 12px rgba(255, 255, 255, 0.7);
+  text-shadow: 0 0 14px rgba(255, 255, 255, 0.7);
 }
 .weather-loading .weather-data h4,
 .weather-loading .weather-data p {
   color: transparent;
-  text-shadow: 0 0 6px rgba(255, 255, 255, 0.7);
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.7);
 }
 .weather-loading .later-today div h4,
 .weather-loading .later-today div p {
   color: transparent;
-  text-shadow: 0 0 6px rgba(255, 255, 255, 0.7);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
 }
 .weather-loading .weather-forecast div p,
 .weather-loading .weather-forecast div h3 {
   color: transparent;
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.7);
 }
 
 /* END WEATHER BLURRING */
