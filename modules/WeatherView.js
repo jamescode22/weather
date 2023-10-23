@@ -92,27 +92,6 @@ export class WeatherView {
     this.weather.classList.remove("weather-loading");
   }
 
-  // showWeatherOverlays(isLoading, errorMessage) {
-  //   // UNBLUR SCREEN AND HIDE LOADING SPINNER AND ERROR
-  //   this.weather.classList.remove("weather-loading");
-  //   this.loadingSpinner.classList.remove("lds-ring-show");
-  //   this.errorOverlay.classList.remove("error-overlay-show");
-
-  //   // if weatherdata is empty, assume that we're loading and blur the screen
-  //   if (Object.keys(weatherData).length === 0) {
-  //     this.weather.classList.add("weather-loading");
-  //     this.loadingSpinner.classList.add("lds-ring-show");
-  //   }
-
-  //   // if error is not null, blur the screen and show the error overlay box
-  //   if (error) {
-  //     this.loadingSpinner.classList.remove("lds-ring-show");
-  //     this.weather.classList.add("weather-loading");
-  //     this.errorOverlay.textContent = error;
-  //     this.errorOverlay.classList.add("error-overlay-show");
-  //   }
-  // }
-
   updateWeatherOnScreen(weatherData, isLoading, errorMessage) {
     // clear all error and loading elements
     this.weather.classList.remove("weather-loading");
@@ -149,6 +128,12 @@ export class WeatherView {
         { day: "Someday", icon: "https://openweathermap.org/img/wn/03n@2x.png", temp: "99", main: "Weather" },
         { day: "Someday", icon: "https://openweathermap.org/img/wn/03n@2x.png", temp: "99", main: "Weather" },
       ],
+      latertoday = [
+        { day: "Someday", icon: "https://openweathermap.org/img/wn/03n@2x.png", temp: "99", main: "Weather" },
+        { day: "Someday", icon: "https://openweathermap.org/img/wn/03n@2x.png", temp: "99", main: "Weather" },
+        { day: "Someday", icon: "https://openweathermap.org/img/wn/03n@2x.png", temp: "99", main: "Weather" },
+        { day: "Someday", icon: "https://openweathermap.org/img/wn/03n@2x.png", temp: "99", main: "Weather" },
+      ],
     } = weatherData;
 
     this.autoGen.innerHTML = `
@@ -164,15 +149,29 @@ export class WeatherView {
               </div>
           </div>
       
-              <div class="weather-data">
-          <img src="${icon}" />
-          <div>
+          <div class="weather-data">
+            <img src="${icon}" />
+            <div>
               <h3>${temp}&deg;C</h3>
               <h4>${tempMin} - ${tempMax}&deg;C</h4>
+            </div>
+            <p>${description}</p>
           </div>
-          <p>${description}</p>
-          
-          </div>
+
+          <div class="later-today">
+          ${latertoday
+            .map(
+              (item) => `
+            <div>
+              <h4>${item.time}</h4>
+              <img src="${item.icon}">
+              <p>${item.main}</p>
+              <p>${item.temp}&deg;C</p>
+            </div>`
+            )
+            .join("")}
+            </div>
+              
           <div class="weather-forecast">
             ${forecast
               .map(
