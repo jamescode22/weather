@@ -46,6 +46,10 @@ header {
     font-size: 2em;
     font-weight: 400;
     width: 280px;
+    a {
+      text-decoration: none;
+      color: $color1;
+    }
   }
   input {
     font: inherit;
@@ -55,6 +59,7 @@ header {
     order: 1;
   }
   .gps-button-container {
+    cursor: pointer;
     width: 60px;
     display: flex;
     justify-content: flex-end;
@@ -144,7 +149,7 @@ header {
   border: 1px solid $color8;
   width: 340px;
   margin: auto;
-  box-shadow: 0 0 50px black;
+  box-shadow: 0 10px 20px black;
   position: relative;
   font-size: 2rem;
   .error-overlay {
@@ -157,7 +162,7 @@ header {
     padding: 25px;
     text-align: center;
     transform: translate(-50%, -50%);
-    box-shadow: 0 0 40px 20px black;
+    box-shadow: 0 0 5px black;
     font-size: 1.6rem;
     font-weight: 500;
   }
@@ -344,7 +349,7 @@ header {
   /* HEADER */
   header {
     flex-wrap: nowrap;
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     // Resize elements so input box is in the centre
     h1 {
       font-size: 1.8em;

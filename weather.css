@@ -34,6 +34,10 @@ header h1 {
   font-weight: 400;
   width: 280px;
 }
+header h1 a {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.7);
+}
 header input {
   font: inherit;
   padding: 5px;
@@ -42,6 +46,7 @@ header input {
   order: 1;
 }
 header .gps-button-container {
+  cursor: pointer;
   width: 60px;
   display: flex;
   justify-content: flex-end;
@@ -127,7 +132,7 @@ header .choices-show {
   border: 1px solid rgb(26, 132, 178);
   width: 340px;
   margin: auto;
-  box-shadow: 0 0 50px black;
+  box-shadow: 0 10px 20px black;
   position: relative;
   font-size: 2rem;
 }
@@ -141,7 +146,7 @@ header .choices-show {
   padding: 25px;
   text-align: center;
   transform: translate(-50%, -50%);
-  box-shadow: 0 0 40px 20px black;
+  box-shadow: 0 0 5px black;
   font-size: 1.6rem;
   font-weight: 500;
 }
@@ -306,7 +311,7 @@ header .choices-show {
   /* HEADER */
   header {
     flex-wrap: nowrap;
-    font-size: 2.5rem;
+    font-size: 2.2rem;
   }
   header h1 {
     font-size: 1.8em;

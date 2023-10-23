@@ -46,10 +46,17 @@ export class WeatherView {
     return document.querySelector(selector);
   }
 
+  shortenLabelForPopup(label) {
+    // restrict length of label to 20 characters
+    console.log("HERE", label);
+    if (label.length < 27) return label;
+    return label.substring(0, 24).padEnd(27, ".");
+  }
+
   getFoundPlacesHTML = (fp) => {
     // Takes an array of geo objects (for found locations), returns HTML for dropdown list
     if (fp.length === 0) return "<p>Start typing to find a location...</p>";
-    return fp.map(({ label }, i) => `<p class="choice-found-item" id="${i}">${label}</p>`).join("") || "";
+    return fp.map(({ label }, i) => `<p class="choice-found-item" id="${i}">${this.shortenLabelForPopup(label)}</p>`).join("") || "";
   };
 
   getSavedPlacesHTML = (sp) => {
@@ -59,7 +66,10 @@ export class WeatherView {
       "<p>Saved Places</p>" +
         sp
           .map(
-            ({ label }, i) => `<div><p class="choice-saved-item" id="${i}">${label}</p><div class="delete-button" id="${i}"><div></div></div></div>`
+            ({ label }, i) =>
+              `<div><p class="choice-saved-item" id="${i}">${this.shortenLabelForPopup(
+                label
+              )}</p><div class="delete-button" id="${i}"><div></div></div></div>`
           )
           .join("") || ""
     );
