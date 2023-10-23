@@ -162,7 +162,6 @@ export class WeatherView {
             <img src="${icon}" />
             <div>
               <h3>${temp}&deg;C</h3>
-              <h4>${tempMin} - ${tempMax}&deg;C</h4>
             </div>
             <p>${description}</p>
           </div>

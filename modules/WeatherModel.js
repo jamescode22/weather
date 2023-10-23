@@ -49,7 +49,10 @@ export class WeatherModel {
       // stamp of 06:00, 09:00, 12:00, 15:00 or 18:00, add to later today
       // items
 
-      if ((time === "06:00" || time === "09:00" || time === "12:00" || time === "15:00" || time === "18:00") && day === dateToString(new Date())) {
+      if (
+        (time === "06:00" || time === "09:00" || time === "12:00" || time === "15:00" || time === "18:00" || time === "21:00") &&
+        day === dateToString(new Date())
+      ) {
         laterTodayItems.push({
           icon: `https://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`,
           time,
